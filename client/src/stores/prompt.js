@@ -33,6 +33,10 @@ export const usePromptStore = defineStore('prompt', {
             }
         },
          async submitPrompt( prompt ) {
+
+            if(this.loading)
+                return;
+
             try {
                 this.loading = true;
                 const response = await this.axios.post('/submit' ,  { data : prompt })
