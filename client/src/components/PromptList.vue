@@ -26,7 +26,15 @@
                 <div class="inline-flex items-center space-x-2">
                     <div class="text-slate-500">{{prompt.attributes.title}}
                         <br />
-                        <div class="text-slate-500 text-xs">{{prompt.attributes.context}}</div>
+                        <div class="text-slate-500 text-xs">
+                           <b>Context: </b> {{prompt.attributes.context}}
+                        </div>
+                        <div class="text-slate-500 text-xs">
+                            <b>Constraints: </b> {{prompt.attributes.constraints}}
+                        </div>
+                        <div class="text-slate-500 text-xs">
+                            <b>Default input: </b> {{prompt.attributes.defaultInput}}
+                        </div>
                     </div>
                 </div>
                 <div class="flex">

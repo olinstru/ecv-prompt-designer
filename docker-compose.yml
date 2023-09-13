@@ -50,19 +50,6 @@ services:
     networks:
       - prompt-designer-api
 
-  prompt-designer-apiAdminer:
-    container_name: prompt-designer-apiAdminer
-    image: adminer
-    restart: unless-stopped
-    ports:
-      - '9090:8080'
-    environment:
-      - ADMINER_DEFAULT_SERVER=prompt-designer-apiDB
-    networks:
-      - prompt-designer-api
-    depends_on:
-      - prompt-designer-apiDB
-
   prompt-designer-gateway:
     container_name: prompt-designer-gateway
     build: ./gateway
