@@ -4,7 +4,8 @@
   "info": {
     "singularName": "prompt",
     "pluralName": "prompts",
-    "displayName": "prompt"
+    "displayName": "prompt",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -21,7 +22,10 @@
       "type": "text"
     },
     "constraints": {
-      "type": "string"
+      "type": "text"
+    },
+    "defaultInput": {
+      "type": "text"
     }
   }
 }

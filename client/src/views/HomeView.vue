@@ -1,9 +1,9 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import PromptsList from '../components/PromptList.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+        <prompts-list />
   </main>
 </template>

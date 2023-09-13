@@ -63,7 +63,8 @@ services:
     depends_on:
       - prompt-designer-apiDB
 
-  pront-designer-gateway:
+  prompt-designer-gateway:
+    container_name: prompt-designer-gateway
     build: ./gateway
     ports:
       - "3000:3000"
@@ -71,12 +72,14 @@ services:
       - ./gateway/:/usr/src/app
       - /usr/src/app/node_modules
     environment:
-      - CHATGPT_API_TOKEN=
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
     networks:
       - prompt-designer-api
-
+    depends_on:
+      - prompt-designer-api
 
   pront-designer-client:
+    container_name: prompt-designer-client
     build: ./client
     ports:
       - "5173:5173"
@@ -84,7 +87,8 @@ services:
       - ./client/:/app
       - /usr/src/app/node_modules
     environment:
-      - VUE_APP_API_URL=http://fletcher_server:3000
+      - VITE_APP_GATEWAY_URL=http://localhost:3000/api
+      - VITE_APP_STRAPI_TOKEN=${VITE_APP_STRAPI_TOKEN}
     networks:
       - prompt-designer-api
 
