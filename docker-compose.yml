@@ -63,6 +63,19 @@ services:
     depends_on:
       - prompt-designer-apiDB
 
+  pront-designer-gateway:
+    build: ./gateway
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./gateway/:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - CHATGPT_API_TOKEN=
+    networks:
+      - prompt-designer-api
+
+
   pront-designer-client:
     build: ./client
     ports:

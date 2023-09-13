@@ -11,7 +11,7 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
 
-app.use('/api/', proxy("http://localhost:1337", {
+app.use('/api/', proxy("http://prompt-designer-api:1337", {
     proxyReqPathResolver: function(proxyReq) {
         return '/api' + proxyReq.url
     }
