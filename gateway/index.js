@@ -12,12 +12,6 @@ var corsOptions = {
 }
 app.use(cors(corsOptions))
 
-
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
-
-
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
@@ -35,8 +29,6 @@ app.post('/api/submit', (req, res) => {
         console.log(e.message);
         res.send({error: e.message} , 500);
     });
-
-    console.log(completion.choices);
 
 })
 
