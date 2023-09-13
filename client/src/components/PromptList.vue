@@ -2,13 +2,6 @@
     import { onMounted , computed} from 'vue'
     import { usePromptStore } from '@/stores/prompt'
     const store = usePromptStore()
-    const prompts = computed(() => {
-        return store.getPrompts;
-    });
-    const loading = computed(() => {
-        return store.getLoading;
-    });
-
     onMounted(() => {
         store.fetchPrompts({})
     })
@@ -22,7 +15,7 @@
         </div>
 
         <div id="tasks" class="my-5">
-            <div class="flex justify-between items-center border-b border-slate-200 py-3 px-2 border-l-4  border-l-transparent" v-for="prompt in prompts">
+            <div class="flex justify-between items-center border-b border-slate-200 py-3 px-2 border-l-4  border-l-transparent" v-for="prompt in store.prompts">
                 <div class="inline-flex items-center space-x-2">
                     <div class="text-slate-500">{{prompt.attributes.title}}
                         <br />
@@ -50,7 +43,7 @@
         </div>
         <p class="text-xs text-slate-500 text-center">
             <span>
-                {{prompts.length}} prompt(s) found
+                {{store.prompts.length}} prompt(s) found
             </span>
         </p>
 
@@ -60,7 +53,7 @@
         Chat GPT Response:
 
         <div class="p-5 bg-gray-100 text-xs" >
-            <span class="loader" v-if="loading"></span>
+            <span class="loader" v-if="store.loading"></span>
             <span v-else>{{store.AIResponse}}</span>
         </div>
     </div>
