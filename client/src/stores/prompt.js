@@ -1,11 +1,22 @@
 import { defineStore } from 'pinia'
 
+const defaultPrompt = {
+  id: null,
+  attributes: {
+      role: '',
+      context: '',
+      constraints: '',
+      defaultInput: ''
+  }
+};
 
 export const usePromptStore = defineStore('prompt', {
     state: () => ({
         prompts: [],
         loading: false,
-        AIResponse: ''
+        AIResponse: '',
+        selectedPrompt : defaultPrompt,
+        messages: []
     }),
     getters: {
         getPrompts(state){
@@ -20,10 +31,14 @@ export const usePromptStore = defineStore('prompt', {
 
     },
     actions: {
+        resetPrompt(){
+            this.selectedPrompt = defaultPrompt;
+            this.messages = []
+        },
         async fetchPrompts( query ) {
             try {
                 this.loading = true;
-                const response = await this.axios.get('/prompts' )
+                const response = await this.axios.get('/prompts?sort=id:desc' )
                 this.prompts = response.data.data
                 this.loading = false;
             }
@@ -32,15 +47,21 @@ export const usePromptStore = defineStore('prompt', {
                 this.loading = false;
             }
         },
-         async submitPrompt( prompt ) {
 
-            if(this.loading)
-                return;
+         async submitPrompt( text ) {
+             if(this.loading)
+                 return;
+
+            const message = {
+                role: 'user',
+                content: text
+            }
+            this.messages.push(message);
 
             try {
                 this.loading = true;
-                const response = await this.axios.post('/submit' ,  { data : prompt })
-                this.AIResponse = response.data.content
+                const response = await this.axios.post('/submit' ,  { messages : this.messages })
+                this.messages.push(response.data);
                 this.loading = false;
             }
             catch (error) {
@@ -48,6 +69,33 @@ export const usePromptStore = defineStore('prompt', {
                 this.loading = false;
             }
         },
+        async savePrompt(  ) {
+
+            if(this.loading)
+                return;
+
+            try {
+                this.loading = true;
+                if(this.selectedPrompt.id){
+                    const response = await this.axios.put('/prompts/' + this.selectedPrompt.id ,  { data : this.selectedPrompt.attributes })
+                    this.loading = false;
+                }
+                else{
+                    const response = await this.axios.post('/prompts' ,  { data : this.selectedPrompt.attributes })
+                    this.loading = false;
+                    await this.fetchPrompts()
+                }
+
+
+
+            }
+            catch (error) {
+                console.log(error.message)
+                this.loading = false;
+            }
+        },
+
+
 
     },
 })

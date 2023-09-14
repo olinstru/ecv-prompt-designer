@@ -1,9 +1,16 @@
 <script setup>
-import PromptsList from '../components/PromptList.vue'
+import PromptDesigner from '../components/PromptDesigner.vue'
+import { onMounted } from 'vue'
+import { usePromptStore } from '@/stores/prompt'
+const store = usePromptStore()
+onMounted(() => {
+    store.fetchPrompts({})
+})
 </script>
 
 <template>
   <main>
-        <prompts-list />
+        <prompt-designer/>
+
   </main>
 </template>

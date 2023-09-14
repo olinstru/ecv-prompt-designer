@@ -17,9 +17,8 @@ app.listen(port, () => {
 })
 
 app.post('/api/submit', (req, res) => {
-    const promptText = `You will act as a ${req.body.data.attributes.role}.  ${req.body.data.attributes.context}   ${req.body.data.attributes.constraints } ${req.body.data.attributes.defaultInput } `
     const completion = openai.chat.completions.create({
-        messages: [{ role: 'user', content: promptText }],
+        messages: req.body.messages,
         model: 'gpt-4',
     })
     .then( (response) => {
