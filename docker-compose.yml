@@ -62,17 +62,16 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     networks:
       - prompt-designer-api
-    depends_on:
-      - prompt-designer-api
 
-  pront-designer-client:
+
+  prompt-designer-client:
     container_name: prompt-designer-client
     build: ./client
     ports:
       - "5173:5173"
     volumes:
       - ./client/:/app
-      - /usr/src/app/node_modules
+      - /app/node_modules
     environment:
       - VITE_APP_GATEWAY_URL=http://localhost:3000/api
       - VITE_APP_STRAPI_TOKEN=${VITE_APP_STRAPI_TOKEN}
