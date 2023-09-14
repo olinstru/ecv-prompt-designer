@@ -33,10 +33,10 @@
             <prompt-list :prompts="store.prompts"  @edit="selectPrompt" @reset="newPrompt"/>
         </div>
          <div class="h-screen p-4 overflow-auto mb-2 flex-1">
-            <prompt-form :prompt="store.selectedPrompt" @save="savePrompt" />
+            <prompt-form :prompt="store.selectedPrompt" @save="savePrompt" @submitPrompt="store.submitPromptToChatGPT"/>
         </div>
         <div class="h-screen p-4 overflow-auto flex-1">
-            <chat-window :messages="store.messages" @submit="store.submitPrompt"/>
+            <chat-window :messages="store.messages" @submit="store.submitPromptToChatGPT"/>
         </div>
 
     </div>

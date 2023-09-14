@@ -1,6 +1,7 @@
 <script setup>
     import {  defineProps , defineEmits , ref } from 'vue'
-
+    import { usePromptStore } from '../stores/prompt';
+    const store = usePromptStore()
     const props = defineProps({
         messages : Array
     })
@@ -10,6 +11,7 @@
         emit('submit' , message.value);
         message.value = ''
     }
+    
 </script>
 <template>
     <div >
@@ -49,6 +51,11 @@
 
 
             <form class="  flex justify-center align-center mt-12">
+
+                <div>
+                    <span class="loader mr-4" v-if="store.loadingAIResponse"></span>
+                </div>
+
                 <input v-model="message" class="items-center h-10 w-full rounded border px-3 text-sm" type="text" placeholder="Type your message…" required>
 
                 <button type="submit" class="text-sm flex  ml-4 align-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" @click.prevent="sendMessage">

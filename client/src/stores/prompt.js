@@ -16,7 +16,8 @@ export const usePromptStore = defineStore('prompt', {
         loading: false,
         AIResponse: '',
         selectedPrompt : defaultPrompt,
-        messages: []
+        messages: [],
+        loadingAIResponse: false,
     }),
     getters: {
         getPrompts(state){
@@ -48,8 +49,8 @@ export const usePromptStore = defineStore('prompt', {
             }
         },
 
-         async submitPrompt( text ) {
-             if(this.loading)
+         async submitPromptToChatGPT( text ) {
+             if(this.loadingAIResponse)
                  return;
 
             const message = {
@@ -59,18 +60,19 @@ export const usePromptStore = defineStore('prompt', {
             this.messages.push(message);
 
             try {
-                this.loading = true;
+                this.loadingAIResponse = true;
                 const response = await this.axios.post('/submit' ,  { messages : this.messages })
                 this.messages.push(response.data);
-                this.loading = false;
+                this.loadingAIResponse = false;
             }
             catch (error) {
                 this.AIResponse = ''
-                this.loading = false;
+                this.loadingAIResponse = false;
             }
         },
-        async savePrompt(  ) {
 
+        async savePrompt(  ) {
+            
             if(this.loading)
                 return;
 
@@ -95,7 +97,22 @@ export const usePromptStore = defineStore('prompt', {
             }
         },
 
+        async deletePrompt( promptID ) {
+            
+            if(this.loading)
+                return;
 
+            try {
+                this.loading = true;
 
+                const response = await this.axios.delete('/prompts/' + promptID ,  { data : this.selectedPrompt.attributes })
+                this.loading = false;
+                this.prompts = this.prompts.filter( (prompt) => {return prompt.id !== promptID });
+            }
+            catch (error) {
+                console.log(error.message)
+                this.loading = false;
+            }
+        },
     },
 })
